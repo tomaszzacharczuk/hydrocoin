@@ -28,7 +28,7 @@ contract Crowdsale is Ownable {
   // how many token units a buyer gets per wei
   uint256 public rate;
 
-  // amount of raised money in wei
+  // amount of ETH raised in wei
   uint256 public weiRaised;
 
   // maximum amount of token in wei available for sale in this crowdsale
@@ -46,7 +46,6 @@ contract Crowdsale is Ownable {
 
 
   function Crowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, uint256 _hardCap) public {
-    require(_startTime >= now);
     require(_endTime >= _startTime);
     require(_rate > 0);
     require(_wallet != address(0));
@@ -67,7 +66,9 @@ contract Crowdsale is Ownable {
   // creates the token to be sold.
   // override this method to have crowdsale of a specific mintable token.
   function assignTokenContract(address tokenContract) public onlyOwner {
+    require(token == address(0));
     token = MintableToken(tokenContract);
+    hardCap = hardCap.add(token.totalSupply());
   }
 
 

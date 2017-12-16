@@ -10,31 +10,32 @@ contract Hydrocoin is MintableToken, MultipleOwners {
     string public symbol = "HYC";
     uint8 public decimals = 18;
 
-    uint256 public transferFreeze = 123432123;
-    mapping(address => bool) public whitelist;
+    // current total supply
+    uint256 public totalSupply = 500100000 ether;
+    // maximum supply
+    uint256 public hardCap = 1000000000 ether;
 
-    function Hydrocoin() public {
-        totalSupply = 500000000 * (10 ** uint(decimals));
-        // fundation address
-        balances[msg.sender] = 250000000 * (10 ** uint(decimals));
-        // gas station reserve
-        balances[msg.sender] = 150000000 * (10 ** uint(decimals));
-        // team
-        balances[msg.sender] = 100000000 * (10 ** uint(decimals));
+    // transfer freeze for team token until September 30th, 2019
+    uint256 public teamTransferFreeze = 1569801600;
+    address public founders = 0x627306090abaB3A6e1400e9345bC60c78a8BEf57;
+
+    function Hydrocoin(address _paymentContract) public {
+        // fundation address, gas station reserve,team
+        balances[founders] = balances[founders].add(500000000 ether);
 
         // payment contract
-        balances[msg.sender] = 100000 * (10 ** uint(decimals));
-        // whitelist payment contract
-        whitelist[msg.sender] = true;
+        balances[_paymentContract] = balances[_paymentContract].add(100000 ether);
+    }
+
+    modifier canMint() {
+        require(!mintingFinished);
+        _;
+        assert(totalSupply <= hardCap);
     }
 
     modifier validateTrasfer() {
-        require(
-            transferFreeze <= now
-            || whitelist[msg.sender]
-            || owners[msg.sender].isOwner
-            || owner == msg.sender);
         _;
+        assert(balances[founders] >= 100000000 ether || teamTransferFreeze < now);
     }
 
     function transfer(address _to, uint256 _value) public validateTrasfer returns (bool) {

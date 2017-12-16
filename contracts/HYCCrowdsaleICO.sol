@@ -1,32 +1,20 @@
 pragma solidity ^0.4.18;
 
-
 import './Crowdsale.sol';
 
-
+// because of truffle limitation of deploying 
+// multiple instances of the same contract
 contract HYCCrowdsaleICO is Crowdsale {
+  function HYCCrowdsaleICO(
+    uint256 _startTime,
+    uint256 _endTime,
+    uint256 _rate,
+    address _wallet,
+    uint256 _hardCap
+  )
+    public 
+    Crowdsale(_startTime, _endTime, _rate, _wallet, _hardCap)
+  {
 
-  // bool public isAllocFinished;
-
-  // /**
-  //  * Allocate token for funcation, gas station reserve and team
-  //  * @param  address beneficiary
-  //  * @param  uint256 tokens
-  //  */
-  // function allocToken(address beneficiary, uint256 tokens) public onlyOwner {
-  //   require(!isAllocFinished);
-  //   token.mint(beneficiary, tokens);
-  //   TokenPurchase(msg.sender, beneficiary, weiAmount, tokens);
-  // }
-
-  // /**
-  //  * Finish allocation and lock contract
-  //  * @return bool
-  //  */
-  // function finishAlloc() public onlyOwner returns (bool) {
-  //   require(token != address(0));
-  //   isAllocFinished = true;
-  //   return isAllocFinished;
-  // }
+  }
 }
-
