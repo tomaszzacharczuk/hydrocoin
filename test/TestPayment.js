@@ -183,7 +183,7 @@ contract('Payment', function(accounts) {
             await preICO.assignTokenContract(hyc.address);
             await pay.setToken(hyc.address, {from: accounts[8]});
         });
-        
+
         it('should not sell to founder under lock if msg.value smaller than 15 eth', async () => {
             var preemptionWallet = await pay.preemption.call();
             var payTokenBal = await hyc.balanceOf.call(pay.address);
