@@ -26,9 +26,9 @@ contract('Crowdsale', function(accounts) {
             assert.equal(startTime.plus(3600).toNumber(), endTime.toNumber(), "start time and end time set incorrectly");
         });
 
-        it('should have rate of 1100', async () => {
+        it('should have rate of 1111', async () => {
             var rate = await preICO.rate.call();
-            assert.equal(rate.toNumber(), 1100, "Rate incorrect");
+            assert.equal(rate.toNumber(), 1111, "Rate incorrect");
         });
 
         it('should have wallet set to accounts[1]', async () => {
@@ -62,11 +62,11 @@ contract('Crowdsale', function(accounts) {
                 walletBal.plus(web3.toWei(10, "ether")).toNumber(), 
                 walletBal2.toNumber(), 
                 "Wallet balance incorrect");
-            
+            var rate = await preICO.rate.call();
             var acc4Bal = await hyc.balanceOf.call(accounts[4]);
             assert.equal(
                 acc4Bal.toNumber(),
-                web3.toWei(10, "ether")*1100,
+                web3.toWei(10, "ether")*rate.toNumber(),
                 "accounts[4] token balance incorrect");
         });
     });
