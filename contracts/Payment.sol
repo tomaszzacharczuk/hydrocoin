@@ -12,13 +12,14 @@ contract Payment is Destructible {
 
     Hydrocoin public token;
 
-    address public preemption = 0x627306090abaB3A6e1400e9345bC60c78a8BEf57;
+    address public preemption;
     Crowdsale public preIco;
 
     uint256 public rate = 1000;
     uint256 public lock;
 
-    function Payment(address _preIco) public {
+    function Payment(address _preIco, address _preemption) public {
+        preemption = _preemption;
         preIco = Crowdsale(_preIco);
         lock = preIco.startTime().add(7 days);
     }

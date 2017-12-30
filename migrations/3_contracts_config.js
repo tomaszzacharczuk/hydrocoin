@@ -5,7 +5,8 @@ var Payment = artifacts.require("./Payment.sol");
 
 
 module.exports = function(deployer, network, accounts) {
-    let hyc, pay, teamTransferFreeze, founders;
+    let hyc, pay, teamTransferFreeze, founders, preemption;
+
     if (network == "develop" || network == "development") {
         teamTransferFreeze = 1569794400;
         founders = "0x627306090abaB3A6e1400e9345bC60c78a8BEf57";
@@ -18,7 +19,7 @@ module.exports = function(deployer, network, accounts) {
     }
 
     deployer.then(() => {
-        return deployer.deploy(Payment, HYCCrowdsalePreICO.address, {gas: 3000000});
+        return deployer.deploy(Payment, HYCCrowdsalePreICO.address, founders, {gas: 3000000});
     }).then((result) => {
         return Payment.deployed();
     }).then((instance) => {
