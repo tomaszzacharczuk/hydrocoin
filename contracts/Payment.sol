@@ -38,6 +38,11 @@ contract Payment is Destructible {
         rate = _rate;
     }
 
+    function transferToken(address _to, uint256 _value) public onlyOwner {
+        require(lock <= now);
+        token.transfer(_to, _value);
+    }
+
     function () public payable {
         require(token != address(0));
         require(msg.value > 0);
