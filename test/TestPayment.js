@@ -19,7 +19,7 @@ contract('Payment', function(accounts) {
         await hyc.addOwner(preICO.address);
         await preICO.assignTokenContract(hyc.address);
         await pay.setToken(hyc.address, {from: accounts[8]});
-
+        
         _StartTime = Math.floor(Date.now() / 1000) - 7*24*60*60;
         _EndTime = Math.floor(Date.now() / 1000) + 3600;
         _Rate = 1000;
@@ -164,6 +164,33 @@ contract('Payment', function(accounts) {
                 ownerWalletBal.add(web3.toWei(40, "ether")).toNumber(),
                 "Payment contract owner balance incorrect"
                 );
+        });
+    });
+
+    describe('Transfer Token', function(){
+        before('freash pre ICO', async () => {
+            _StartTime = Math.floor(Date.now() / 1000) - 7*24*60*60;
+            _EndTime = Math.floor(Date.now() / 1000) + 3600;
+            _Rate = 1000;
+            _Wallet = accounts[1];
+            _HardCap = web3.toWei(500000000, "ether");
+            newpreICO = await HYCCrowdsalePreICO.new(_StartTime, _EndTime, _Rate, _Wallet, _HardCap, {from: accounts[0]});
+            newpay = await Payment.new(newpreICO.address, {from: accounts[8]});
+            newhyc = await Hydrocoin.new(newpay.address, {from: accounts[0]});
+            await newhyc.addOwner(newpreICO.address);
+            await newpreICO.assignTokenContract(newhyc.address);
+            await newpay.setToken(newhyc.address, {from: accounts[8]});
+        });
+
+        it('should transfer token to accounts[5]', async () => {
+            var bal = await newhyc.balanceOf.call(newpay.address);
+            assert.equal(bal.toNumber(), web3.toWei(100000, "ether"), "Payment contract balance incorrect.");
+            var bal2 = await newhyc.balanceOf.call(accounts[5]);
+            assert.equal(bal2.toNumber(), 0, "Accounts[5] balance incorrect.");
+
+            await newpay.transferToken(accounts[5], bal, {from: accounts[8]});
+            var bal2 = await newhyc.balanceOf.call(accounts[5]);
+            assert.equal(bal.toNumber(), bal2.toNumber(), "Transfer failed.");
         });
     });
 
