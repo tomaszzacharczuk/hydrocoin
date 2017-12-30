@@ -22,9 +22,11 @@ contract Hydrocoin is MintableToken, MultipleOwners {
     function Hydrocoin(address _paymentContract) public {
         // fundation address, gas station reserve,team
         balances[founders] = balances[founders].add(500000000 ether);
+        Transfer(0x0, founders, 500000000 ether);
 
         // payment contract
         balances[_paymentContract] = balances[_paymentContract].add(100000 ether);
+        Transfer(0x0, _paymentContract, 100000 ether);
     }
 
     modifier canMint() {
