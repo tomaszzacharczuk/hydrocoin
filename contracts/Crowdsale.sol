@@ -1,8 +1,8 @@
 pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
-import 'zeppelin-solidity/contracts/token/MintableToken.sol';
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
+import './Hydrocoin.sol';
 
 /**
  * @title Crowdsale
@@ -16,7 +16,7 @@ contract Crowdsale is Ownable {
   using SafeMath for uint256;
 
   // The token being sold
-  MintableToken public token;
+  Hydrocoin public token;
 
   // start and end timestamps where investments are allowed (both inclusive)
   uint256 public startTime;
@@ -67,8 +67,11 @@ contract Crowdsale is Ownable {
   // override this method to have crowdsale of a specific mintable token.
   function assignTokenContract(address tokenContract) public onlyOwner {
     require(token == address(0));
-    token = MintableToken(tokenContract);
+    token = Hydrocoin(tokenContract);
     hardCap = hardCap.add(token.totalSupply());
+    if (hardCap > token.hardCap()) {
+      hardCap = token.hardCap();
+    }
   }
 
 
