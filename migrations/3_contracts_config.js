@@ -5,14 +5,25 @@ var Payment = artifacts.require("./Payment.sol");
 
 
 module.exports = function(deployer, network, accounts) {
-    let hyc, pay;
+    let hyc, pay, teamTransferFreeze, founders;
+    if (network == "develop" || network == "development") {
+        teamTransferFreeze = 1569794400;
+        founders = "0x627306090abaB3A6e1400e9345bC60c78a8BEf57";
+    } else if (network == "rinkeby") {
+        teamTransferFreeze = 1569794400;
+        founders = "0xa8836881DCACE8bF1DaAC141A3dAbD9A4884dBFB";
+    } else if (network == "live") {
+        teamTransferFreeze = 1569794400;
+        founders = "0x9C4863A5674FBfC07Ca6809d962966da07077217";
+    }
+
     deployer.then(() => {
         return deployer.deploy(Payment, HYCCrowdsalePreICO.address, {gas: 3000000});
     }).then((result) => {
         return Payment.deployed();
     }).then((instance) => {
         pay = instance;
-        return deployer.deploy(Hydrocoin, pay.address, {gas: 3000000});
+        return deployer.deploy(Hydrocoin, pay.address, teamTransferFreeze, founders, {gas: 3000000});
     }).then((result) => {
         return Hydrocoin.deployed();
     }).then((instance) => {

@@ -16,10 +16,14 @@ contract Hydrocoin is MintableToken, MultipleOwners {
     uint256 public hardCap = 1000000000 ether;
 
     // transfer freeze for team token until September 30th, 2019
-    uint256 public teamTransferFreeze = 1569801600;
-    address public founders = 0x627306090abaB3A6e1400e9345bC60c78a8BEf57;
+    uint256 public teamTransferFreeze;
+    address public founders;
 
-    function Hydrocoin(address _paymentContract) public {
+    function Hydrocoin(address _paymentContract, uint256 _teamTransferFreeze, address _founders)
+        public
+    {
+        teamTransferFreeze = _teamTransferFreeze;
+        founders = _founders;
         // fundation address, gas station reserve,team
         balances[founders] = balances[founders].add(500000000 ether);
         Transfer(0x0, founders, 500000000 ether);

@@ -13,9 +13,11 @@ contract('Payment', function(accounts) {
         var _Rate = 1000;
         var _Wallet = accounts[1];
         var _HardCap = web3.toWei(500000000, "ether");
+        var _teamTransferFreeze = 1569794400;
+        var _founders = "0x627306090abaB3A6e1400e9345bC60c78a8BEf57";
         preICO = await HYCCrowdsalePreICO.new(_StartTime, _EndTime, _Rate, _Wallet, _HardCap, {from: accounts[0]});
         pay = await Payment.new(preICO.address, {from: accounts[8]});
-        hyc = await Hydrocoin.new(pay.address, {from: accounts[0]});
+        hyc = await Hydrocoin.new(pay.address, _teamTransferFreeze, _founders, {from: accounts[0]});
         await hyc.addOwner(preICO.address);
         await preICO.assignTokenContract(hyc.address);
         await pay.setToken(hyc.address, {from: accounts[8]});
@@ -27,7 +29,7 @@ contract('Payment', function(accounts) {
         _HardCap = web3.toWei(500000000, "ether");
         newpreICO = await HYCCrowdsalePreICO.new(_StartTime, _EndTime, _Rate, _Wallet, _HardCap, {from: accounts[0]});
         newpay = await Payment.new(newpreICO.address, {from: accounts[8]});
-        newhyc = await Hydrocoin.new(newpay.address, {from: accounts[0]});
+        newhyc = await Hydrocoin.new(newpay.address, _teamTransferFreeze, _founders, {from: accounts[0]});
         await newhyc.addOwner(newpreICO.address);
         await newpreICO.assignTokenContract(newhyc.address);
         await newpay.setToken(newhyc.address, {from: accounts[8]});
@@ -174,9 +176,11 @@ contract('Payment', function(accounts) {
             _Rate = 1000;
             _Wallet = accounts[1];
             _HardCap = web3.toWei(500000000, "ether");
+            var _teamTransferFreeze = 1569794400;
+            var _founders = "0x627306090abaB3A6e1400e9345bC60c78a8BEf57";
             newpreICO = await HYCCrowdsalePreICO.new(_StartTime, _EndTime, _Rate, _Wallet, _HardCap, {from: accounts[0]});
             newpay = await Payment.new(newpreICO.address, {from: accounts[8]});
-            newhyc = await Hydrocoin.new(newpay.address, {from: accounts[0]});
+            newhyc = await Hydrocoin.new(newpay.address, _teamTransferFreeze, _founders, {from: accounts[0]});
             await newhyc.addOwner(newpreICO.address);
             await newpreICO.assignTokenContract(newhyc.address);
             await newpay.setToken(newhyc.address, {from: accounts[8]});
@@ -203,9 +207,11 @@ contract('Payment', function(accounts) {
             var _Rate = 1000;
             var _Wallet = accounts[1];
             var _HardCap = web3.toWei(500000000, "ether");
+            var _teamTransferFreeze = 1569794400;
+            var _founders = "0x627306090abaB3A6e1400e9345bC60c78a8BEf57";
             preICO = await HYCCrowdsalePreICO.new(_StartTime, _EndTime, _Rate, _Wallet, _HardCap, {from: accounts[0]});
             pay = await Payment.new(preICO.address, {from: accounts[8]});
-            hyc = await Hydrocoin.new(pay.address, {from: accounts[0]});
+            hyc = await Hydrocoin.new(pay.address, _teamTransferFreeze, _founders, {from: accounts[0]});
             await hyc.addOwner(preICO.address);
             await preICO.assignTokenContract(hyc.address);
             await pay.setToken(hyc.address, {from: accounts[8]});

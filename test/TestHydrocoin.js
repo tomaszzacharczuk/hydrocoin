@@ -55,7 +55,7 @@ contract('Hydrocoin', function(accounts) {
             var teamTransferFreeze = await hyc.teamTransferFreeze.call();
             assert.equal(
                 teamTransferFreeze.toNumber(),
-                1569801600,
+                1569794400,
                 "teamTransferFreeze incorrect");
         });
 
