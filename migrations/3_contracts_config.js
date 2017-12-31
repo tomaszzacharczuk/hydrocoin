@@ -35,6 +35,9 @@ module.exports = function(deployer, network, accounts) {
     }).then((result) => {
         return HYCCrowdsalePreICO.deployed();
     }).then((instance) => {
+        instance.assignTokenContract(hyc.address);
+        return HYCCrowdsaleICO.deployed();
+    }).then((instance) => {
         return instance.assignTokenContract(hyc.address);
     }).then((result) => {
         return pay.setRate(1500);
