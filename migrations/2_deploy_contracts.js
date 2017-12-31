@@ -27,7 +27,7 @@ module.exports = function(deployer, network, accounts) {
         var _rate = 1000;
         var _wallet = "0x3b2f56aDFc330294526034815fa192C7ed6Df606";
         var _hardCap = web3.toWei(499900000, "ether");
-    } else if (network == "live") {
+    } else if (network == "mainnet") {
         // Monday, January 1, 2018 12:00:00 AM GMT+01:00
         var _preStartTime = 1514761200;
 

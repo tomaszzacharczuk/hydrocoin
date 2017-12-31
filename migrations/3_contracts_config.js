@@ -13,7 +13,7 @@ module.exports = function(deployer, network, accounts) {
     } else if (network == "rinkeby") {
         teamTransferFreeze = 1569794400;
         founders = "0xa8836881DCACE8bF1DaAC141A3dAbD9A4884dBFB";
-    } else if (network == "live") {
+    } else if (network == "mainnet") {
         teamTransferFreeze = 1569794400;
         founders = "0x9C4863A5674FBfC07Ca6809d962966da07077217";
     }
