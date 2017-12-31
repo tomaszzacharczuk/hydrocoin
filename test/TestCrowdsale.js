@@ -5,10 +5,11 @@ var Payment = artifacts.require("./Payment.sol");
 
 
 contract('Crowdsale', function(accounts) {
-    let preICO, hyc;
+    let preICO, ICO, hyc;
 
     before(async function(){
         preICO = await HYCCrowdsalePreICO.deployed();
+        ICO = await HYCCrowdsaleICO.deployed();
         // console.log('HYCCrowdsalePreICO: ', preICO.address);
         hyc = await Hydrocoin.deployed();
         // console.log('Hydrocoin: ', hyc.address);
@@ -18,6 +19,8 @@ contract('Crowdsale', function(accounts) {
         it('should have token address setup', async () => {
             var token = await preICO.token.call();
             assert.equal(token, Hydrocoin.address, "Token address incorrect");
+            var token = await ICO.token.call();
+            assert.equal(token, Hydrocoin.address, "ICO Token address incorrect");
         });
 
         it('should have endtime greater by 3600 sec than starttime', async () => {
