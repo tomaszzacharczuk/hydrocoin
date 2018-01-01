@@ -124,7 +124,7 @@ contract('Crowdsale', function(accounts) {
 
         it('should have hard cap set to 49.9m + token supply', async () => {
             var cap = await newPreICO.hardCap.call();
-            var totalSupply = await hyc.totalSupply.call()
+            var totalSupply = await newHyc.totalSupply.call();
             assert.equal(
                 cap.toNumber(),
                 totalSupply.add(web3.toWei(49900000, "ether")).toNumber(),
@@ -169,11 +169,10 @@ contract('Crowdsale', function(accounts) {
         });
 
         it('should not allow to exceed hard cap', async () => {
-            
             var tx = await web3.eth.sendTransaction({
                 from: accounts[1],
                 to: newPreICO.address,
-                value: web3.toWei(50, "ether"),
+                value: web3.toWei(49.9, "ether"),
                 gas: 150000,
             });
 
@@ -184,12 +183,14 @@ contract('Crowdsale', function(accounts) {
                     value: 1,
                     gas: 150000,
                 });
-                var acc1Bal = await hyc.balanceOf.call(accounts[2]);
-                assert.equal(acc1Bal.toNumber(), 0, "Account[2] should have balance 0");
+                // var acc1Bal = await hyc.balanceOf.call(accounts[2]);
+                // assert.equal(acc1Bal.toNumber(), 0, "Account[2] should have balance 0");
             } catch(e) {
                 var acc1Bal = await hyc.balanceOf.call(accounts[2]);
                 assert.equal(acc1Bal.toNumber(), 0, "Account[2] should have balance 0");
+                return;
             }
+            assert.fail();
         });
 
         it('should not allow to buy token before start date', async () => {

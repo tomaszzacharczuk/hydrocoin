@@ -87,9 +87,17 @@ contract('Hydrocoin', function(accounts) {
         });
 
         it('should allow to mint only owners', async () => {
-            var tx = await hyc.mint(accounts[6], 10000, {from: accounts[0]});
+            var totalSupply = await hyc.totalSupply();
+
+            var tx = await hyc.mint(accounts[6], web3.toWei(1, "ether"), {from: accounts[0]});
             var bal = await hyc.balanceOf.call(accounts[6]);
-            assert.equal(bal.toNumber(), 10000, "Balance of accounts[6] incorrect");
+            assert.equal(bal.toNumber(), web3.toWei(1, "ether"), "Balance of accounts[6] incorrect");
+
+            var totalSupply2 = await hyc.totalSupply();
+            assert.equal(
+                totalSupply.add(web3.toWei(1, "ether")).toNumber(), 
+                totalSupply2.toNumber(), 
+                "totalSupply incorrect");
         });
     });
 
