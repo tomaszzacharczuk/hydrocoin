@@ -18,7 +18,7 @@ contract MultipleOwners is Ownable {
     }
 
     function addOwner(address newOwner) public onlyOwner {
-        require(!owners[msg.sender].isOwner);
+        require(!owners[newOwner].isOwner);
         owners[newOwner] = Owner(true, ownersLUT.length);
         ownersLUT.push(newOwner);
     }
